@@ -1,23 +1,14 @@
-# docker-kannel
-Kannel dockerized.
+# README #
 
-Simply kannel docker image. Mount your own conf files to use.
+To connect to Telco via SMPP (sending & receiving SMS) we will use kannel (kannel.org) this is an opensource SMPP gateway used widely in SMS connectivity. 
 
-Usage with docker-compose:
+How it works
+1. We create kannel image (this image download kannel and configures then exposes two services i.e bearer & smsbox)
+2. Create a configuration file that defines all the connectivity details including Telco IP, smpp username & smpp password
+3. Deploy the image
 
-	kannel:
-      image: bulktrade/kannel:r5159
-      ports:
-        - 13013 # smsbox
-        - 13000 # kannel admin
-      #volumes:
-      #  - "./kannel.conf:/etc/kannel/kannel.conf"
-      #  - "./opensmppbox.conf:/etc/kannel/opensmppbox.conf"
+- This creates 2 services, bearerbox and smsbox, bearerbox needs to connect to SMSbox which connects to the telco.  
+- Bearerbox exposes several API endpoints listed below
 
-Start container with docker-conpose: 
-	
-	docker-compose up -d
-	
-Start container with docker:
-
-	docker run --rm bulktrade/kannel:r5159
+1. health check and status endpoint (GET /status)
+2. Send SMS endpoint (GET) - We shall use this endpoint to send SMS to the connected telco

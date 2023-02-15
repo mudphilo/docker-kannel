@@ -1,0 +1,17 @@
+version: '3.8'
+
+services:
+  kannel:
+    image: mti84966/kannel:r5187
+    deploy:
+      restart_policy:
+        condition: on-failure
+    ports:
+      - 13001:13001 # smsbox-port
+      - 13013:13013 # sendsms-port
+      - 13000:13000 # kannel admin
+    volumes:
+      - "./kannel.conf:/etc/kannel/kannel.conf"
+    #  - "./dlr-redis.conf:/etc/kannel/dlr-redis.conf"
+    #  - "./smsc/airtel.conf:/etc/kannel/airtel.conf"
+    #  - "./opensmppbox.conf:/etc/kannel/opensmppbox.conf"

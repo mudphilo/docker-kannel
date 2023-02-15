@@ -1,10 +1,10 @@
 FROM debian:jessie
 RUN apt-get update && apt-get upgrade -y && \
         apt-get -y remove ntpdate && \
-        apt-get install -y build-essential subversion ntp nano wget cvs subversion curl git-core unzip autoconf \
+        apt-get install -y --force-yes build-essential subversion ntp nano wget cvs subversion curl git-core unzip autoconf \
         automake1.11 libtool flex debhelper pkg-config libpam0g-dev intltool checkinstall docbook docbook-xsl \
         build-essential libpcre3 libpcre3-dev libc6-dev g++ gcc autotools-dev bison libncurses5-dev m4 tex-common \
-        texi2html texinfo libxml2-dev \
+        texi2html texinfo libxml2-dev libhiredis-dev \
         openssl libssl-dev locales libmysqlclient-dev libmysql++-dev supervisor libtool libtool-bin
 
 RUN locale-gen en_US && \
@@ -17,7 +17,7 @@ RUN cd /usr/local && \
 	mv trunk gateway && \
 	cd /usr/local/src/kannel/gateway && \
 	./configure -prefix=/usr/local/kannel -with-mysql -with-mysql-dir=/usr/lib/mysql/ -enable-debug -enable-assertions -with-defaults=speed \
-	-enable-localtime -enable-start-stop-daemon -enable-pam && \
+	-enable-localtime -enable-start-stop-daemon -enable-pam --with-redis --enable-docs=yes && \
 	touch .depend && \
 	make depend && \
 	make && \
